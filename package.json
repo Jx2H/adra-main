@@ -1,0 +1,25 @@
+{
+  "name": "adra_main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "index.js",
+  "pkg": {
+    "scripts": "module/**/*.js",
+    "assets": [
+      "module/cdn/**/*",
+      "module/html/**/*"
+    ]
+  },
+  "scripts": {
+    "bulid": "pkg . --targets node10-win-x64"
+  },
+  "author": "AlDeRAn",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ejs": "^2.6.2",
+    "srcds-rcon": "^2.2.1",
+    "gamedig": "^2.0.19"
+  }
+}

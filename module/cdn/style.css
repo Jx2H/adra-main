@@ -1,0 +1,56 @@
+html {
+    background: url('/cdn/bg.jpg')
+    no-repeat center center fixed;
+    -webkit-background-size: cover; 
+    -moz-background-size: cover; 
+    -o-background-size: cover; 
+    background-size: cover;
+    z-index: -2;
+}
+
+body {
+    color: rgb(219, 219, 219);
+    text-shadow: 2px 2px 2px black;
+    margin:0;
+    padding:0;
+    color: white;
+    overflow: hidden;
+}
+
+body #main {
+    position: relative;
+    margin: auto;
+    max-width: 20%;
+    min-width: 10%;
+    /* height: 20%; */
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    text-align: center;
+}
+
+body #main #set {
+    background-color: rgba(30, 30, 30, 0.5);
+    text-shadow: 2px 5px 5px black;
+    border-radius: 20px;
+    padding: 6px;
+    margin-top: 50%;
+}
+
+body #login {
+    z-index: 3;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+body #login a {
+    text-decoration-line: none;
+    padding: 10px;
+    border-radius: 7px;
+    background: rgb(0, 148, 255);
+    box-shadow: 0px 2px 7px black;
+    color: white;
+}

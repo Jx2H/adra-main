@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="/cdn/admin/style.css">
+    <title>ADRA - Main :: 관리자</title>
+    <script>
+        if (typeof (history.pushState) != "undefined") {
+            history.pushState({accesskey: "<%-accesskey%>"}, null, "/admin");
+        } else {
+            alert("HTML5를 지원하는 크롬 등 브라우저로 접속해주세요. (엑세스 키는 일치합니다)");
+            history.back();
+        }
+    </script>
+</head>
+<body oncontextmenu="return false">
+    <div id="overlag"></div>
+    <div id="if">ADRA - MAIN<br>Made by AlDeRAn<br>Version 1.0.1</div>
+
+    <div id="icon-r" style="float: right;">
+        <div class="icon" onclick="location.href = '?access='+history.state.accesskey">
+            <img src="/cdn/admin/icon/refresh.png">
+            <span class="name"><a style="text-decoration:none;color: white;" href="javascript:void(0)">새로고침</a></span>
+        </div>
+        <!-- <div class="icon" onclick="">
+            <img src="/cdn/admin/icon/fback.png">
+            <span class="name">피드백</span>
+        </div> -->
+        <div class="icon" onclick="return _404();configjson_box()">
+            <img src="/cdn/admin/icon/notepad.png">
+            <span class="name">프로그램<br>설정</span>
+        </div>
+    </div>
+
+    <div id="icon-1" style="float: left;">
+        <div class="icon" onclick="server_on()">
+            <img src="/cdn/admin/icon/srcds.png">
+            <span class="name">srcds.exe</span>
+        </div>
+        <div class="icon" onclick="server_off()">
+            <img src="/cdn/admin/icon/srcds.png">
+            <span class="name">재시작 끄기</span>
+        </div>
+        <div class="icon" onclick="addons_box()">
+            <img src="/cdn/admin/icon/explorer.png">
+            <span class="name">addons/</span>
+        </div>
+        <div class="icon" onclick="return _404();configcfg_box()">
+            <img src="/cdn/admin/icon/notepad.png">
+            <span class="name">server.cfg</span>
+        </div>
+        <div class="icon" onclick="rcon_box()">
+            <img src="/cdn/admin/icon/cmd.png">
+            <span class="name">rcon.exe</span>
+        </div>
+        <div class="icon" onclick="_404()">
+            <img src="/cdn/admin/icon/web.png">
+            <span class="name">로딩화면</span>
+        </div>
+    </div>
+
+    <!-- 두번째 열 -->
+    <div id="icon-2" style="float: left;">
+        <div class="icon" onclick="return _404();server_info()">
+            <img src="/cdn/admin/icon/srcds.png">
+            <span class="name">서버 정보</span>
+        </div>
+    </div>
+
+    <div id="rcon-div" class="box-div">
+        <div id="rcon-div-header" class="box-div-header">rcon.exe<span class="box-div-cl" onclick="document.getElementById('rcon-div').style.display = 'none'">X</span></div>
+        <div class="box-div-info">
+            <input type="password" id="rcon-password" placeholder="Rcon 비밀번호">
+            <br>
+            <input type="text" id="rcon-console" list="l1" laceholder="Console">
+            <input type="submit" value="알콘 전송" onclick="server_rcon()">
+            <datalist id="l1">
+                <option value="status">서버 상태</option>
+                <option value="ulx adduser ">ULX 그룹지정</option>
+                <option value="exit">서버 닫기</option>
+                <option value="rcon_password ">알콘 비밀번호 변경</option>
+                <option value="ulx kick ">ULX 강제퇴장</option>
+                <option value="ulx ban ">ULX 차단</option>
+                <option value="ulx unban ">ULX 차단해제</option>
+            </datalist>
+        </div>
+    </div>
+
+    <div id="addons-div" class="box-div">
+        <div id="addons-div-header" class="box-div-header">애드온 목록 addons/<span class="box-div-cl" onclick="document.getElementById('addons-div').style.display = 'none'">X</span></div>
+        <div class="box-div-info" style="height: 560px; overflow: auto">
+            <% for (var i in addons) { %>
+                <div class="adlis">
+                    <p class="name">폴더명: <%- addons[i].dir %></p>
+                    <% if (addons[i].adra) { %>
+                    <p class="adra">분류: ADRA 애드온</p>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div id="configcfg-div" class="box-div">
+        <div id="configcfg-div-header" class="box-div-header">편집 - config.cfg<span class="box-div-cl" onclick="document.getElementById('configcfg-div').style.display = 'none'">X</span></div>
+        <div class="box-div-info">
+            <textarea name="" id="" cols="100" rows="50" style="height: 700px;"></textarea>
+            <br>
+            <button>수정</button>
+        </div>
+    </div>
+
+    <div id="configjson-div" style="left: 80%;" class="box-div">
+        <div id="configjson-div-header" class="box-div-header">편집 - config.json<span class="box-div-cl" onclick="document.getElementById('configjson-div').style.display = 'none'">X</span></div>
+        <div class="box-div-info">
+
+        </div>
+    </div>
+
+    <div id="serverinfo-div" class="box-div">
+        <div id="serverinfo-div-header" class="box-div-header">서버 정보<span class="box-div-cl" onclick="document.getElementById('serverinfo-div').style.display = 'none'">X</span></div>
+        <div class="box-div-info">
+
+        </div>
+    </div>
+</body>
+<script src="/cdn/admin/main.js"></script>
+</html>
