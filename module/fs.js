@@ -33,13 +33,12 @@ class meta {
                 fs.writeFileSync(this.a_path+config.eula.path, config.eula.input, {encoding: 'utf8'});
             }
             if (type == 'access') {
-                if (this.config.access_random) {
-                    var text = "";
-                    var a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                    for( var i=0; i < 12; i++ )
-                        text += a.charAt(Math.floor(Math.random() * a.length));
-                    fs.writeFileSync(this.a_path+config.access.path, text, {encoding: 'utf8'});
-                }
+                var text = "";
+                var a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                for( var i=0; i < 12; i++ )
+                    text += a.charAt(Math.floor(Math.random() * a.length));
+                this.accesskey = text;
+                fs.writeFileSync(this.a_path+config.access.path, text, {encoding: 'utf8'});
             }
             if (type == 'config') {
                 var table = {};
@@ -85,15 +84,14 @@ class meta {
     isaccess() {
         if (this.exists(this.a_path+config.access.path)) {
             var data = fs.readFileSync(this.a_path+config.access.path);
-            if (data == null || data == "") {
-                this.config.access_random = false;
+            if (data == null || data == "") { this.create('access'); return false }
+            if (this.config.access_random) {
                 this.create('access');
-                this.config.access_random = true;
-                return false;
+                return true;
+            } else {
+                this.accesskey = data;
+                return true;
             }
-            data = String(data);
-            this.accesskey = data; // 도중 변경 불가
-            return data;
         } else {
             this.create('access');
             return false;

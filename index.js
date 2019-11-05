@@ -23,18 +23,16 @@ if (!_fs.iseula()) { // 율라 검사
     console.log("RTS: EULA... Check");
 }
 
-if (_fs.isconfig() == false) { // 설정 파일 검사
+if (!_fs.isconfig()) { // 설정 파일 검사
     console.log('RTS: 설정 파일이 존재하지 않아 새로 생성했습니다.');
 } else {
     console.log("RTS: 설정된 데이터를 문제 없이 잘 불러왔습니다.");
 }
 
-if (!_fs.isaccess()) { // 엑세스 검사
-    console.log(`RTS: 엑세스 키가 존재하지 않아 새로 생성했습니다. Access Key - ${_fs.isaccess()}`);
+if (_fs.isaccess()) {
+    console.log(`RTS: 엑세스 키가 ${_fs.config.access_random ? '다음과 같이 변경되었습니다.' : '기존과 동일하게 지정되었습니다.'} Access Key - ${_fs.accesskey}`);
 } else {
-    _fs.create('access');
-    if (_fs.config.access_random) console.log(`RTS: 엑세스 키가 다음과 같이 변경되었습니다. Access Key - ${_fs.isaccess()}`);
-    else console.log(`RTS: 엑세스 키가 기존과 동일하게 지정되었습니다. Access Key - ${_fs.isaccess()}`); 
+    console.log(`RTS: 엑세스 키가 존재하지 않아 새로 생성했습니다. Access Key - ${_fs.accesskey}`);
 }
 
 console.log("\n서버 내부 아이피 - IP: " + _fs.ip + ":" + _fs.port);
