@@ -17,9 +17,9 @@
   "author": "AlDeRAn",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
     "ejs": "^2.6.2",
-    "srcds-rcon": "^2.2.1",
-    "gamedig": "^2.0.19"
+    "express": "^4.17.1",
+    "gamedig": "^2.0.19",
+    "srcds-rcon": "^2.2.1"
   }
 }
