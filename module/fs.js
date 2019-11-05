@@ -8,7 +8,7 @@ class meta {
         } else {
             this.path = "adra_main/";
         }
-        this.a_path = process.cwd()+"/"+this.path;
+        this.a_path = process.cwd()+"\\"+this.path;
         if (process.env.NODE_ENV == "development") {
             this.g_path = "D:\\Gmod\\servercmd\\steamapps\\common\\GarrysModDS\\"; //DEV
         } else {
@@ -33,22 +33,19 @@ class meta {
                 fs.writeFileSync(this.a_path+config.eula.path, config.eula.input, {encoding: 'utf8'});
             }
             if (type == 'access') {
-                function makeid() {
+                if (this.config.access_random) {
                     var text = "";
-                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
+                    var a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
                     for( var i=0; i < 12; i++ )
-                        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-                    return text;
+                        text += a.charAt(Math.floor(Math.random() * a.length));
+                    fs.writeFileSync(this.a_path+config.access.path, text, {encoding: 'utf8'});
                 }
-                fs.writeFileSync(this.a_path+config.access.path, makeid(), {encoding: 'utf8'});
             }
             if (type == 'config') {
                 var table = {};
                 table["startvar"] = "";
+                table["access_random"] = true;
                 this.config = table;
-                //this.startvar();
                 fs.writeFileSync(this.a_path+config.config.path, JSON.stringify(table), {encoding: 'utf8'});
             }
         }
@@ -88,7 +85,12 @@ class meta {
     isaccess() {
         if (this.exists(this.a_path+config.access.path)) {
             var data = fs.readFileSync(this.a_path+config.access.path);
-            if (data == null || data == "") return false, this.create('access');
+            if (data == null || data == "") {
+                this.config.access_random = false;
+                this.create('access');
+                this.config.access_random = true;
+                return false;
+            }
             data = String(data);
             this.accesskey = data; // 도중 변경 불가
             return data;
