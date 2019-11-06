@@ -89,7 +89,7 @@ class meta {
                 this.create('access');
                 return true;
             } else {
-                this.accesskey = data;
+                this.accesskey = String(data);
                 return true;
             }
         } else {

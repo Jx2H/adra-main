@@ -36,7 +36,12 @@ if (_fs.isaccess()) {
 }
 
 console.log("\n서버 내부 아이피 - IP: " + _fs.ip + ":" + _fs.port);
-console.log("\nADRA - Main / Made By AlDeRAn\n시스템 작동!\n");
+if (process.env.NODE_ENV == "development") {
+    console.log("\n개발자 모드 실행중 / 엑세스 키: "+_fs.accesskey+"\n");
+} else {
+    console.log("\nADRA - Main / Made By AlDeRAn\n시스템 작동!\n");
+}
+
 
 require('./module/express')(_fs); // 웹 운영
 

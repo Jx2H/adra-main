@@ -37,7 +37,8 @@ module.exports = function(_fs) {
         const access = req.params.access;
 
         if (access == '' || type == '') return res.status(412).send("올바른 형태의 접근 방식이 아닙니다.");
-        if (access !== _fs.accesskey) return res.status(401).send("엑세스 키가 틀렸습니다. 프로그램 혹은 adra_main/access.txt 에서 확인하실 수 있습니다.");
+        console.log(access, _fs.accesskey);
+        if (access != _fs.accesskey) return res.status(401).send("엑세스 키가 틀렸습니다. 프로그램 혹은 adra_main/access.txt 에서 확인하실 수 있습니다.");
 
         let save = {
             server_on: function() {
