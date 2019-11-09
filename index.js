@@ -37,11 +37,10 @@ if (_fs.isaccess()) {
 
 console.log("\n서버 내부 아이피 - IP: " + _fs.ip + ":" + _fs.port);
 if (process.env.NODE_ENV == "development") {
-    console.log("\n개발자 모드 실행중 / 엑세스 키: "+_fs.accesskey+"\n");
+    console.log("\n개발자 모드 실행중");
 } else {
     console.log("\nADRA - Main / Made By AlDeRAn\n시스템 작동!\n");
 }
-
 
 require('./module/express')(_fs); // 웹 운영
 
@@ -55,6 +54,8 @@ rl.on("line", function(line) {
         require('child_process').spawn('cmd', ['/c', 'start', 'http://127.0.0.1:283/admin?access=' + _fs.accesskey]);
     if (command === 'open' || command === 'gui')
         require('child_process').spawn('cmd', ['/c', 'start', 'http://127.0.0.1:283/']);
+    if (command === 'info')
+        console.table(_fs);
     if (command === 'server') {
         if (argv === 'on') {
             server.on(_fs);

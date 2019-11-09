@@ -20,7 +20,7 @@ function server_on() {
         }
     }
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send(null);
+    request.send();
 }
 
 function server_off() {
@@ -38,7 +38,7 @@ function server_off() {
         }
     }
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send(null);
+    request.send();
 }
 
 function server_rcon() {
@@ -76,7 +76,41 @@ function server_info() {
         }
     }
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send(null);
+    request.send();
+}
+
+function server_cfg_read() {
+    var request = new XMLHttpRequest();
+    request.open('post', _url()+'server_cfg_read', true);
+    request.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                document.getElementById('configcfg_text').value = this.responseText;
+            } else {
+                return alert("파일이 존재하지 않거나 오류가 발생되었습니다.");
+            }
+        }
+    }
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send();
+}
+
+function server_cfg_write() {
+    var a = confirm("server.cfg 파일에 위 내용을 덮어씌우시겠습니까?\n- 한번 실행된 과정은 되돌리실 수 없습니다.");
+    if (!a) return;
+    var request = new XMLHttpRequest();
+    request.open('post', _url()+'server_cfg_write', true);
+    request.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                alert("성공적으로 처리되었습니다.")
+            } else {
+                return alert("오류가 발생되었습니다.");
+            }
+        }
+    }
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send("data="+encodeURIComponent(document.getElementById('configcfg_text').value));
 }
 
 function _404() {
@@ -93,6 +127,7 @@ function addons_box() {
 
 function configcfg_box() {
     document.getElementById('configcfg-div').style.display = 'block';
+    server_cfg_read();
 }
 
 function configjson_box() {

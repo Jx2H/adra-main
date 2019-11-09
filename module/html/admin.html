@@ -29,10 +29,10 @@
             <img src="/cdn/admin/icon/fback.png">
             <span class="name">피드백</span>
         </div> -->
-        <div class="icon" onclick="return _404();configjson_box()">
+        <!-- <div class="icon" onclick="return _404();configjson_box()">
             <img src="/cdn/admin/icon/notepad.png">
             <span class="name">프로그램<br>설정</span>
-        </div>
+        </div> -->
     </div>
 
     <div id="icon-1" style="float: left;">
@@ -48,7 +48,7 @@
             <img src="/cdn/admin/icon/explorer.png">
             <span class="name">addons/</span>
         </div>
-        <div class="icon" onclick="return _404();configcfg_box()">
+        <div class="icon" onclick="configcfg_box()">
             <img src="/cdn/admin/icon/notepad.png">
             <span class="name">server.cfg</span>
         </div>
@@ -104,11 +104,12 @@
     </div>
 
     <div id="configcfg-div" class="box-div">
-        <div id="configcfg-div-header" class="box-div-header">편집 - config.cfg<span class="box-div-cl" onclick="document.getElementById('configcfg-div').style.display = 'none'">X</span></div>
+        <div id="configcfg-div-header" class="box-div-header">편집 - server.cfg<span class="box-div-cl" onclick="document.getElementById('configcfg-div').style.display = 'none'">X</span></div>
         <div class="box-div-info">
-            <textarea name="" id="" cols="100" rows="50" style="height: 700px;"></textarea>
+            <textarea name="me" id="configcfg_text" cols="100" rows="50" style="height: 700px;"></textarea>
             <br>
-            <button>수정</button>
+            <button onclick="server_cfg_write()">수정</button>
+            <!-- <button onclick="server_cfg_copy()" title="불러온 내용 그대로 server.example.cfg 파일이 생성됩니다.">백업 파일 생성</button> -->
         </div>
     </div>
 

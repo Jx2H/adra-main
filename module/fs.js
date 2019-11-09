@@ -103,6 +103,7 @@ class meta {
             var data = fs.readFileSync(this.a_path+config.config.path);
             if (data == null || data == "") { this.create('config'); return false; }
             try {
+                data = String(data);
                 data = JSON.parse(data);
             } catch (err) {
                 console.log("IVB: 설정 파일을 손상되었습니다.");
@@ -119,11 +120,11 @@ class meta {
                 }
             }
             this.config = data;
-            this.startvar();
+            this.setstart();
             return true;
         } else {
             this.create('config');
-            this.startvar();
+            this.setstart();
             return false;
         }
     }
@@ -159,7 +160,7 @@ class meta {
         return arr_list;
     }
 
-    startvar() {
+    setstart() {
         if (this.config.startvar != undefined || this.config.startvar != null) {
             let startvar = this.config.startvar;
             try {
@@ -181,11 +182,29 @@ class meta {
             Object.keys(t).forEach(a => {if (a == "port") ii++});
             if (ii == 0) {
                 this.port = 27015;
-                this.isconfig('startvar', this.config.startvar.trim() + " -port " + this.port);
+                this.isconfig('startvar', this.config.startvar.trim() + (this.config.startvar == "" ? "" : " ") + "-port " + this.port);
             } else {
                 this.port = t["port"];
             }
             this.startvar = t;
+        }
+    }
+
+    servercfg(me) {
+        if (this.exists(this.g_path+"garrysmod/cfg/server.cfg")) {
+            if (me == null) {
+                var data = String(fs.readFileSync(this.g_path+"garrysmod/cfg/server.cfg"));
+                return data;
+            } else {
+                try {
+                    fs.writeFileSync(this.g_path+"garrysmod/cfg/server.cfg", me, {encoding: 'utf8'});
+                } catch (error) {
+                    console.error(error);
+                    return 'error';
+                }
+            }
+        } else {
+            return null;
         }
     }
 }

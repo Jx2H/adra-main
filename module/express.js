@@ -37,7 +37,6 @@ module.exports = function(_fs) {
         const access = req.params.access;
 
         if (access == '' || type == '') return res.status(412).send("올바른 형태의 접근 방식이 아닙니다.");
-        console.log(access, _fs.accesskey);
         if (access != _fs.accesskey) return res.status(401).send("엑세스 키가 틀렸습니다. 프로그램 혹은 adra_main/access.txt 에서 확인하실 수 있습니다.");
 
         let save = {
@@ -82,6 +81,22 @@ module.exports = function(_fs) {
                     console.log("WEB: 서버 정보를 읽으려고 했지만 서버가 닫혀있습니다.");
                     res.sendStatus(500);
                 });
+            },
+            server_cfg_read: () => {
+                var data = _fs.servercfg();
+                if (data == null) {
+                    return res.sendStatus(500);
+                }
+                res.status(200).send(data);
+            },
+            server_cfg_write: () => {
+                var data = req.body.data;
+                data = _fs.servercfg(data);
+                if (data == 'error') {
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
             }
         }
 
