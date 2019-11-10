@@ -21,7 +21,7 @@ module.exports = function(_fs) {
             return res.send("<script>var data = prompt( '엑세스 키를 입력해주세요.\\n 엑세스 키는 프로그램 혹은 adra_main/access.txt 에서 확인하실 수 있습니다.', '' );if(data!=''||data==null){alert(`보안을 위해 모든 작동이 내부적으로 이루어집니다. 절대 새로고침(F5)을 시도하지 마시고, 사이트 화면내 새로고침을 사용하십시오.`);location.href = '/admin?access='+data}else{alert('아무것도 입력하지 않으셨습니다.');history.back();}</script>")
         } else {
             if (req.query.access == _fs.accesskey) {
-                res.render('admin', {accesskey: _fs.accesskey, addons: _fs.readaddon()});
+                res.render('admin', {accesskey: _fs.accesskey, addons: _fs.readaddon(), version: _fs.version});
                 var ip = req.ip.substring(7);
                 if (!['127.0.0.1', '192.168.0.1', 'localhost'].includes(ip)) {
                     console.log("WEB: 누군가 엑세스 키를 사용해 관리자 사이트에 접근했습니다. 본인이 아니라면 즉시 프로그램을 재시작하여 무력화 시키세요.\n접근한 아이피: "+ip);
