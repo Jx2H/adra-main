@@ -1,5 +1,9 @@
+const request = require('request');
 const fs = require('fs');
+const unzipper = require('unzipper');
 const config = require('./set.js');
+
+let version = "1.0.4";
 
 class meta {
     constructor(_path) {
@@ -8,12 +12,18 @@ class meta {
         } else {
             this.path = "adra_main/";
         }
+
+        // 데이터 폴더 경로 지정
         this.a_path = process.cwd()+"\\"+this.path;
+
+        // 경로 지정
         if (process.env.NODE_ENV == "development") {
             this.g_path = "D:\\Gmod\\servercmd\\steamapps\\common\\GarrysModDS\\"; //DEV
         } else {
             this.g_path = process.cwd()+"\\";
         }
+
+        // ip 가져오기
         for (var a of Object.values(require('os').networkInterfaces())) {
             for (var b of a) {
                 if (b.internal == false && b.family == "IPv4") {
@@ -22,6 +32,24 @@ class meta {
                 }
             }
         }
+
+        //버전 지정
+        this.version = version;
+
+        this.giturl = "https://github.com/JJH0328/adra-main/releases/";
+        request.get(this.giturl+'latest', (err, req, body) => {
+            if (err) return console.error(err);
+            var path = req.req.path;
+            var a = '/tag/v';
+            if (path.indexOf(a) == -1) return console.log("FS: 최신 버전을 불러오지 못했습니다.");
+            var latest = path.split(a).slice(1).join();
+            this.latest_version = latest;
+            if (version < latest) {
+                console.log(`FS: 현재 v${version} / 최신 v${latest} 업데이트가 필요합니다.\n - 다운로드 'update' 입력`);
+            } else {
+                console.log("FS: 최신 버전입니다.");
+            }
+        });
     }
 
     create(type) {
@@ -52,7 +80,7 @@ class meta {
 
     exists(set) {
         if (set) {
-            if (typeof set !== "string") return console.error("IVB: 'set' is not 'string' type!");
+            if (typeof set !== "string") return console.error("FS: 'set' is not 'string' type!");
             return fs.existsSync(set);
         } else {
             return fs.existsSync(this.path);    
@@ -106,7 +134,7 @@ class meta {
                 data = String(data);
                 data = JSON.parse(data);
             } catch (err) {
-                console.log("IVB: 설정 파일을 손상되었습니다.");
+                console.log("FS: 설정 파일을 손상되었습니다.");
                 this.create('config');
                 return false;
             }
@@ -115,7 +143,7 @@ class meta {
                 try {
                     fs.writeFileSync(this.a_path+config.config.path, JSON.stringify(data), {encoding: 'utf8'});
                 } catch (error) {
-                    console.log('IVB: 설정 값을 바꾸는 과정에서 오류가 발생했습니다. 이 작업은 무효 처리되었습니다.');
+                    console.log('FS: 설정 값을 바꾸는 과정에서 오류가 발생했습니다. 이 작업은 무효 처리되었습니다.');
                     return false;
                 }
             }
@@ -166,7 +194,7 @@ class meta {
             try {
                 startvar = startvar.split(/[+-]|[\s]+[+-]/gi).slice(1);
             } catch (error) {
-                console.log("IVB: 시작옵션중 정확하게 구분되어 있지 않은 내용이 존재합니다. 다시 확인해주세요. EX: '[+ Or -][옵션] [값/선택]' 이게 한세트임. 2 세트이상 경우 띄어쓰기로 구분함.");
+                console.log("FS: 시작옵션중 정확하게 구분되어 있지 않은 내용이 존재합니다. 다시 확인해주세요. EX: '[+ Or -][옵션] [값/선택]' 이게 한세트임. 2 세트이상 경우 띄어쓰기로 구분함.");
             }
             var t = {}
             for (var a of startvar) {
@@ -206,6 +234,24 @@ class meta {
         } else {
             return null;
         }
+    }
+
+    update() {
+        var ver = this.latest_version;
+        var re = request.get(this.giturl+`download/v${ver}/adra_main.zip`);
+        console.log("FS: 다운로드를 시작합니다.");
+        // 순수 다운로드 코드
+        // re.pipe(fs.createWriteStream('adra_main.zip')).on('close', () => {
+        //     console.log("LTC: 다운로드가 완료되었습니다.");
+        // });
+        // 버퍼 그대로 압축풀기
+        var namef = `adra_main_${this.latest_version}.exe`;
+        re.pipe(unzipper.ParseOne()).pipe(fs.createWriteStream(namef)).on('close', () => {
+            console.log(`FS: '${namef}' 다운로드가 완료되었습니다. 3초 후 종료 합니다.\n- '${namef}'(을)를 직접 실행해주세요.\n- 최신 버전이 안정하다면 구 버전 삭제 바랍니다.`);
+            setTimeout(() => {
+                process.exit();
+            }, 3000);
+        });
     }
 }
 

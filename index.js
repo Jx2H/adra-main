@@ -39,7 +39,7 @@ console.log("\n서버 내부 아이피 - IP: " + _fs.ip + ":" + _fs.port);
 if (process.env.NODE_ENV == "development") {
     console.log("\n개발자 모드 실행중");
 } else {
-    console.log("\nADRA - Main / Made By AlDeRAn\n시스템 작동!\n");
+    console.log(`\nADRA - Main / Made By AlDeRAn\nv${_fs.version} 시스템 작동!\n`);
 }
 
 require('./module/express')(_fs); // 웹 운영
@@ -75,6 +75,7 @@ rl.on("line", function(line) {
             console.log('LTC: 도움말에서 명령어를 찾아보세요.\n직접 adra_main\\config.json 에서 startvar 부분을 수정하는 것을 권장드립니다.');
         }
     }
+    if (command === 'update') _fs.update();
     if (command === '도움말' || command === 'help') {
         
     }

@@ -92,7 +92,7 @@ module.exports = function(_fs) {
             server_cfg_write: () => {
                 var data = req.body.data;
                 data = _fs.servercfg(data);
-                if (data == 'error') {
+                if (data == 'error' || data == null) {
                     res.sendStatus(500);
                 } else {
                     res.sendStatus(200);

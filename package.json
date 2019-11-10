@@ -1,6 +1,6 @@
 {
   "name": "adra_main",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "bin": "index.js",
@@ -20,6 +20,8 @@
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "gamedig": "^2.0.19",
-    "srcds-rcon": "^2.2.1"
+    "srcds-rcon": "^2.2.1",
+    "unzipper": "^0.10.5",
+    "request": "^2.88.0"
   }
 }
