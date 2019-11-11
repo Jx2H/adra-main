@@ -21,7 +21,7 @@ if (!_fs.iseula()) { // 율라 검사
     return console.log("RTS: EULA에 동의하지 않았습니다. 잘 읽어보신 후 지시에 따라 true 으로 수정하시고 다시 시작 바랍니다.");
 } else {
     console.log("RTS: EULA... Check");
-}
+}   
 
 if (!_fs.isconfig()) { // 설정 파일 검사
     console.log('RTS: 설정 파일이 존재하지 않아 새로 생성했습니다.');
@@ -57,12 +57,8 @@ rl.on("line", function(line) {
     if (command === 'info')
         console.table(_fs);
     if (command === 'server') {
-        if (argv === 'on') {
-            server.on(_fs);
-        }
-        if (argv === 'off') {
-            server.off();
-        }
+        if (argv === 'on') server.on(_fs);
+        if (argv === 'off') server.off();
     }
     if (command === 'startvar') {
         if (argv != "") {
@@ -76,6 +72,17 @@ rl.on("line", function(line) {
         }
     }
     if (command === 'update') _fs.update();
+    if (command === 'rcon') {
+        var say = args[0];
+        if (say === 'list') {
+            console.table(Object.keys(_fs));
+            return;
+        }
+        if (_fs[String(say)] == undefined) return console.log("RCON: 알 수 없음.");
+        var twosay = args.slice(1).join(" ");
+        if (twosay === '') return console.log(`FS: ${_fs[say]}`);
+        _fs[String(say)] = String(twosay);
+    }
     if (command === '도움말' || command === 'help') {
         
     }

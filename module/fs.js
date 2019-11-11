@@ -238,6 +238,7 @@ class meta {
 
     update() {
         var ver = this.latest_version;
+        if (ver <= this.version) return console.log(`FS: 이미 최신 버전으로 실행 중 입니다.`);
         var re = request.get(this.giturl+`download/v${ver}/adra_main.zip`);
         console.log("FS: 다운로드를 시작합니다.");
         // 순수 다운로드 코드
@@ -245,13 +246,14 @@ class meta {
         //     console.log("LTC: 다운로드가 완료되었습니다.");
         // });
         // 버퍼 그대로 압축풀기
-        var namef = `adra_main_${this.latest_version}.exe`;
-        re.pipe(unzipper.ParseOne()).pipe(fs.createWriteStream(namef)).on('close', () => {
-            console.log(`FS: '${namef}' 다운로드가 완료되었습니다. 3초 후 종료 합니다.\n- '${namef}'(을)를 직접 실행해주세요.\n- 최신 버전이 안정하다면 구 버전 삭제 바랍니다.`);
-            setTimeout(() => {
-                process.exit();
-            }, 3000);
-        });
+        var namef = `adra_main_${ver}.exe`;
+        try {
+            re.pipe(unzipper.ParseOne()).pipe(fs.createWriteStream(namef)).on('close', () => {
+                console.log(`FS: '${namef}' 다운로드가 완료되었습니다.\n- '${namef}'(을)를 직접 실행해주세요.\n- 최신 버전이 안정하다면 구 버전 삭제 바랍니다.`);
+            });
+        } catch (error) {
+            console.log(`FS: 다운로드 도중 오류가 발생 되었습니다. 이미 '${namef}' 파일이 존재하는지 확인 해보세요.`);
+        }
     }
 }
 
