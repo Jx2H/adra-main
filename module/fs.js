@@ -148,13 +148,12 @@ class meta {
                 }
             }
             this.config = data;
-            this.setstart();
             return true;
         } else {
             this.create('config');
-            this.setstart();
             return false;
         }
+        this.setstart();
     }
 
     readaddon() {

@@ -80,7 +80,7 @@ rl.on("line", function(line) {
         }
         if (_fs[String(say)] == undefined) return console.log("RCON: 알 수 없음.");
         var twosay = args.slice(1).join(" ");
-        if (twosay === '') return console.log(`FS: ${_fs[say]}`);
+        if (twosay === '') return console.log(`RCON: ${_fs[say]}`);
         _fs[String(say)] = String(twosay);
     }
     if (command === '도움말' || command === 'help') {
