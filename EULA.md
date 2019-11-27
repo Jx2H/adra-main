@@ -1,5 +1,5 @@
 # adra-main
-<hr>
+____
 ## 최종 사용자 라이선스 동의 (EULA. End-User License Agreement)
 ##### 본 문서는 법정에서 증거가 될 수 없으며, adra-main 내에서만 작용됩니다.    
 ____
