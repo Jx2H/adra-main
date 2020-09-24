@@ -36,7 +36,7 @@ class meta {
         //버전 지정
         this.version = version;
 
-        this.giturl = "https://github.com/JJH0328/adra-main/releases/";
+        this.giturl = "https://github.com/Jx2H/adra-main/releases/";
         request.get(this.giturl+'latest', (err, req, body) => {
             if (err) return console.error(err);
             var path = req.req.path;
